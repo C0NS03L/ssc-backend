@@ -1,6 +1,6 @@
 package com.moneytrackerbackend.controller;
 
-import com.moneytrackerbackend.model.User;
+import com.moneytrackerbackend.model.AppUser;
 import com.moneytrackerbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,12 +14,12 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+    public ResponseEntity<AppUser> getUserById(@PathVariable Long id) {
         return ResponseEntity.ok(userService.findById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
+    public ResponseEntity<AppUser> updateUser(@PathVariable Long id, @RequestBody AppUser user) {
         user.setId(id);
         return ResponseEntity.ok(userService.save(user));
     }
