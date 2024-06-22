@@ -12,17 +12,8 @@ public class Category {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private AppUser user;
-
-    // Constructors
-    public Category() {
-    }
-
-    public Category(String name, AppUser user) {
-        this.name = name;
-        this.user = user;
-    }
 
     // Getters and setters
     public Long getId() {

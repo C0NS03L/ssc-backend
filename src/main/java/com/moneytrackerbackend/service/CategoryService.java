@@ -1,6 +1,5 @@
 package com.moneytrackerbackend.service;
 
-import com.moneytrackerbackend.dto.CategoryDto;
 import com.moneytrackerbackend.model.Category;
 import com.moneytrackerbackend.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,32 +17,16 @@ public class CategoryService {
     return categoryRepository.findAll();
   }
 
-  public CategoryDto getCategory(Long id) {
-    Category category = categoryRepository.findById(id).orElse(null);
-    if (category == null) {
-      return null;
-    }
-    CategoryDto categoryDto = new CategoryDto();
-    categoryDto.setId(category.getId());
-    categoryDto.setName(category.getName());
-    categoryDto.setDescription(category.getDescription());
-    return categoryDto;
+  public Category getCategory(Long id) {
+    return categoryRepository.findById(id).orElse(null);
   }
 
-  public Category createCategory(CategoryDto categoryDto) {
-    Category category = new Category();
-    category.setName(categoryDto.getName());
-    category.setDescription(categoryDto.getDescription());
+  public Category createCategory(Category category) {
     return categoryRepository.save(category);
   }
 
-  public Category updateCategory(Long id, CategoryDto categoryDto) {
-    Category category = categoryRepository.findById(id).orElse(null);
-    if (category == null) {
-      return null;
-    }
-    category.setName(categoryDto.getName());
-    category.setDescription(categoryDto.getDescription());
+  public Category updateCategory(Long id, Category category) {
+    category.setId(id);
     return categoryRepository.save(category);
   }
 

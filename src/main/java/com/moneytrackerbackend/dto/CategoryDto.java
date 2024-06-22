@@ -6,16 +6,6 @@ public class CategoryDto {
     private String name;
     private Long userId;
 
-    // Constructors
-    public CategoryDto() {
-    }
-
-    public CategoryDto(Long id, String name, Long userId) {
-        this.id = id;
-        this.name = name;
-        this.userId = userId;
-    }
-
     // Getters and setters
     public Long getId() {
         return id;
