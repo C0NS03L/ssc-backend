@@ -1,13 +1,18 @@
 package com.moneytrackerbackend.dto;
 
 public class AuthenticationResponse {
-    private final String jwt;
 
-    public AuthenticationResponse(String jwt) {
-        this.jwt = jwt;
+    private String token;
+
+    public AuthenticationResponse(String token) {
+        this.token = token;
     }
 
-    public String getJwt() {
-        return jwt;
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
