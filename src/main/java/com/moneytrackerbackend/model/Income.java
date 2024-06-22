@@ -1,7 +1,6 @@
 package com.moneytrackerbackend.model;
 
 import jakarta.persistence.*;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -17,14 +16,14 @@ public class Income {
     private LocalDateTime date;
 
     @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private AppUser user;
+
+    @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private AppUser user;
-
-    // Getters and setters
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -57,6 +56,14 @@ public class Income {
         this.date = date;
     }
 
+    public AppUser getUser() {
+        return user;
+    }
+
+    public void setUser(AppUser user) {
+        this.user = user;
+    }
+
     public Category getCategory() {
         return category;
     }
@@ -65,11 +72,7 @@ public class Income {
         this.category = category;
     }
 
-    public AppUser getUser() {
-        return user;
-    }
-
-    public void setUser(AppUser user) {
-        this.user = user;
+    public Long getUserId() {
+        return user != null ? user.getId() : null;
     }
 }
