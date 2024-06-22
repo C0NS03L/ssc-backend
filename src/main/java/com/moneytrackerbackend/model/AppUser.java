@@ -1,11 +1,7 @@
 package com.moneytrackerbackend.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import java.util.List;
-import jakarta.persistence.OneToMany;
 
 @Entity
 public class AppUser {
@@ -18,19 +14,12 @@ public class AppUser {
     private String password;
 
     @OneToMany(mappedBy = "user")
-    private List<Expense> expenses;
-
-    @OneToMany(mappedBy = "user")
     private List<Income> incomes;
 
-    // Getters and setters
+    @OneToMany(mappedBy = "user")
+    private List<Expense> expenses;
 
-    public AppUser() {}
-
-    public AppUser(Long id) {
-        this.id = id;
-    }
-
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -55,19 +44,19 @@ public class AppUser {
         this.password = password;
     }
 
-    public List<Expense> getExpenses() {
-        return expenses;
-    }
-
-    public void setExpenses(List<Expense> expenses) {
-        this.expenses = expenses;
-    }
-
     public List<Income> getIncomes() {
         return incomes;
     }
 
     public void setIncomes(List<Income> incomes) {
         this.incomes = incomes;
+    }
+
+    public List<Expense> getExpenses() {
+        return expenses;
+    }
+
+    public void setExpenses(List<Expense> expenses) {
+        this.expenses = expenses;
     }
 }

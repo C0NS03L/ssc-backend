@@ -1,8 +1,7 @@
 package com.moneytrackerbackend.service;
 
-import com.moneytrackerbackend.dto.BalanceDto;
-import com.moneytrackerbackend.repository.ExpenseRepository;
-import com.moneytrackerbackend.repository.IncomeRepository;
+import com.moneytrackerbackend.model.Balance;
+import com.moneytrackerbackend.repository.BalanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,15 +11,18 @@ import java.math.BigDecimal;
 public class BalanceService {
 
     @Autowired
-    private IncomeRepository incomeRepository;
+    private BalanceRepository balanceRepository;
 
-    @Autowired
-    private ExpenseRepository expenseRepository;
+    public Balance findByUserId(Long userId) {
+        return balanceRepository.findByUserId(userId).orElse(null);
+    }
 
-    public BalanceDto getBalance(Long userId) {
-        BigDecimal totalIncome = incomeRepository.findTotalIncomeByUserId(userId).orElse(BigDecimal.ZERO);
-        BigDecimal totalExpense = expenseRepository.findTotalExpenseByUserId(userId).orElse(BigDecimal.ZERO);
-        BigDecimal balance = totalIncome.subtract(totalExpense);
-        return new BalanceDto(totalIncome, totalExpense, balance);
+    public Balance updateBalance(Long userId, BigDecimal income, BigDecimal expense) {
+        Balance balance = balanceRepository.findByUserId(userId).orElse(new Balance());
+        balance.setTotalIncome(balance.getTotalIncome().add(income));
+        balance.setTotalExpense(balance.getTotalExpense().add(expense));
+        balance.setNetBalance(balance.getTotalIncome().subtract(balance.getTotalExpense()));
+        balance.setUserId(userId);
+        return balanceRepository.save(balance);
     }
 }

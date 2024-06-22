@@ -10,12 +10,12 @@ public class Balance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private BigDecimal totalIncome;
-    private BigDecimal totalExpense;
-    private BigDecimal netBalance;
+    private BigDecimal netBalance = BigDecimal.ZERO;
+    private BigDecimal totalIncome = BigDecimal.ZERO;
+    private BigDecimal totalExpense = BigDecimal.ZERO;
 
     @OneToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private AppUser user;
 
     // Getters and setters
@@ -26,6 +26,14 @@ public class Balance {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public BigDecimal getNetBalance() {
+        return netBalance;
+    }
+
+    public void setNetBalance(BigDecimal netBalance) {
+        this.netBalance = netBalance;
     }
 
     public BigDecimal getTotalIncome() {
@@ -44,19 +52,22 @@ public class Balance {
         this.totalExpense = totalExpense;
     }
 
-    public BigDecimal getNetBalance() {
-        return netBalance;
-    }
-
-    public void setNetBalance(BigDecimal netBalance) {
-        this.netBalance = netBalance;
-    }
-
     public AppUser getUser() {
         return user;
     }
 
     public void setUser(AppUser user) {
         this.user = user;
+    }
+
+    public Long getUserId() {
+        return this.user != null ? this.user.getId() : null;
+    }
+
+    public void setUserId(Long userId) {
+        if (this.user == null) {
+            this.user = new AppUser();
+        }
+        this.user.setId(userId);
     }
 }
