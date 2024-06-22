@@ -4,8 +4,9 @@ import com.moneytrackerbackend.model.Expense;
 import com.moneytrackerbackend.repository.ExpenseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.math.BigDecimal;
 
 @Service
 public class ExpenseService {
@@ -13,19 +14,13 @@ public class ExpenseService {
     @Autowired
     private ExpenseRepository expenseRepository;
 
-    public List<Expense> findAll() {
-        return expenseRepository.findAll();
-    }
+    @Autowired
+    private BalanceService balanceService;
 
-    public Expense findById(Long id) {
-        return expenseRepository.findById(id).orElse(null);
-    }
-
+    @Transactional
     public Expense save(Expense expense) {
-        return expenseRepository.save(expense);
-    }
-
-    public void deleteById(Long id) {
-        expenseRepository.deleteById(id);
+        Expense savedExpense = expenseRepository.save(expense);
+        balanceService.updateBalance(expense.getUserId(), BigDecimal.ZERO, expense.getAmount());
+        return savedExpense;
     }
 }
