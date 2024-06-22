@@ -1,22 +1,20 @@
 package com.moneytrackerbackend.controller;
 
 import com.moneytrackerbackend.dto.CategoryDto;
+import com.moneytrackerbackend.model.AppUser;
 import com.moneytrackerbackend.model.Category;
 import com.moneytrackerbackend.service.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin
 @RestController
 @RequestMapping("/api/v1/categories")
 public class CategoryController {
 
-  private final CategoryService categoryService;
-
-  public CategoryController(CategoryService categoryService) {
-    this.categoryService = categoryService;
-  }
+  @Autowired
+  private CategoryService categoryService;
 
   @GetMapping
   public List<Category> getAllCategories() {
@@ -25,17 +23,24 @@ public class CategoryController {
 
   @GetMapping("/{id}")
   public CategoryDto getCategory(@PathVariable Long id) {
-    return categoryService.getCategory(id);
+    Category category = categoryService.getCategory(id);
+    return new CategoryDto(category.getId(), category.getName(), category.getUser().getId());
   }
 
   @PostMapping
   public Category createCategory(@RequestBody CategoryDto categoryDto) {
-    return categoryService.createCategory(categoryDto);
+    Category category = new Category();
+    category.setName(categoryDto.getName());
+    category.setUser(new AppUser(categoryDto.getUserId()));
+    return categoryService.createCategory(category);
   }
 
   @PutMapping("/{id}")
   public Category updateCategory(@PathVariable Long id, @RequestBody CategoryDto categoryDto) {
-    return categoryService.updateCategory(id, categoryDto);
+    Category category = categoryService.getCategory(id);
+    category.setName(categoryDto.getName());
+    category.setUser(new AppUser(categoryDto.getUserId()));
+    return categoryService.updateCategory(category);
   }
 
   @DeleteMapping("/{id}")

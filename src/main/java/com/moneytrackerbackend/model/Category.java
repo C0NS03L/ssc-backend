@@ -1,9 +1,6 @@
 package com.moneytrackerbackend.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Category {
@@ -11,8 +8,21 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
-    private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private AppUser user;
+
+    // Constructors
+    public Category() {
+    }
+
+    public Category(String name, AppUser user) {
+        this.name = name;
+        this.user = user;
+    }
 
     // Getters and setters
     public Long getId() {
@@ -31,11 +41,11 @@ public class Category {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public AppUser getUser() {
+        return user;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setUser(AppUser user) {
+        this.user = user;
     }
 }
