@@ -1,53 +1,39 @@
 package com.moneytrackerbackend.dto;
 
+import java.math.BigDecimal;
+
 public class BalanceDto {
+    private BigDecimal totalIncome;
+    private BigDecimal totalExpense;
+    private BigDecimal balance;
 
-    private Long userId;
-    private Double totalIncome;
-    private Double totalExpense;
-    private Double balance;
-
-    // Constructors
-    public BalanceDto() {
-    }
-
-    public BalanceDto(Long userId, Double totalIncome, Double totalExpense, Double balance) {
-        this.userId = userId;
+    public BalanceDto(BigDecimal totalIncome, BigDecimal totalExpense, BigDecimal balance) {
         this.totalIncome = totalIncome;
         this.totalExpense = totalExpense;
         this.balance = balance;
     }
 
-    // Getters and setters
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public Double getTotalIncome() {
+    public BigDecimal getTotalIncome() {
         return totalIncome;
     }
 
-    public void setTotalIncome(Double totalIncome) {
+    public void setTotalIncome(BigDecimal totalIncome) {
         this.totalIncome = totalIncome;
     }
 
-    public Double getTotalExpense() {
+    public BigDecimal getTotalExpense() {
         return totalExpense;
     }
 
-    public void setTotalExpense(Double totalExpense) {
+    public void setTotalExpense(BigDecimal totalExpense) {
         this.totalExpense = totalExpense;
     }
 
-    public Double getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setBalance(Double balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 }

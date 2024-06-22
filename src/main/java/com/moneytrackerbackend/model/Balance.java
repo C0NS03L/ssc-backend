@@ -1,6 +1,7 @@
 package com.moneytrackerbackend.model;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 public class Balance {
@@ -9,24 +10,16 @@ public class Balance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Double totalIncome;
-    private Double totalExpense;
+    private BigDecimal totalIncome;
+    private BigDecimal totalExpense;
+    private BigDecimal netBalance;
 
     @OneToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private AppUser user;
 
-    // Constructors
-    public Balance() {
-    }
-
-    public Balance(AppUser user, Double totalIncome, Double totalExpense) {
-        this.user = user;
-        this.totalIncome = totalIncome;
-        this.totalExpense = totalExpense;
-    }
-
     // Getters and setters
+
     public Long getId() {
         return id;
     }
@@ -35,20 +28,28 @@ public class Balance {
         this.id = id;
     }
 
-    public Double getTotalIncome() {
+    public BigDecimal getTotalIncome() {
         return totalIncome;
     }
 
-    public void setTotalIncome(Double totalIncome) {
+    public void setTotalIncome(BigDecimal totalIncome) {
         this.totalIncome = totalIncome;
     }
 
-    public Double getTotalExpense() {
+    public BigDecimal getTotalExpense() {
         return totalExpense;
     }
 
-    public void setTotalExpense(Double totalExpense) {
+    public void setTotalExpense(BigDecimal totalExpense) {
         this.totalExpense = totalExpense;
+    }
+
+    public BigDecimal getNetBalance() {
+        return netBalance;
+    }
+
+    public void setNetBalance(BigDecimal netBalance) {
+        this.netBalance = netBalance;
     }
 
     public AppUser getUser() {
@@ -57,9 +58,5 @@ public class Balance {
 
     public void setUser(AppUser user) {
         this.user = user;
-    }
-
-    public Double getBalance() {
-        return totalIncome - totalExpense;
     }
 }
