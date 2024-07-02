@@ -22,5 +22,6 @@ public class ExpenseService {
         Expense savedExpense = expenseRepository.save(expense);
         balanceService.updateBalance(expense.getUserId(), BigDecimal.ZERO, expense.getAmount());
         return savedExpense;
+
     }
 }
