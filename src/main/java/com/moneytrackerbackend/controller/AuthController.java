@@ -28,6 +28,7 @@ public class AuthController {
     public ResponseEntity<?> register(@RequestBody AppUser appUser) {
         userService.save(appUser);
         return ResponseEntity.ok("User registered successfully");
+        //TODO: Add error handling
     }
 
     @PostMapping("/login")

@@ -39,7 +39,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(new AntPathRequestMatcher("/auth/**")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/api/auth/**")).permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
