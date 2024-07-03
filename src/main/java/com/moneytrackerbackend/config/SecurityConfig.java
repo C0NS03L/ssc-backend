@@ -4,6 +4,7 @@ import com.moneytrackerbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,7 +23,7 @@ public class SecurityConfig {
     private final JwtRequestFilter jwtRequestFilter;
 
     @Autowired
-    public SecurityConfig(UserService userService, JwtRequestFilter jwtRequestFilter) {
+    public SecurityConfig(@Lazy UserService userService, JwtRequestFilter jwtRequestFilter) {
         this.userService = userService;
         this.jwtRequestFilter = jwtRequestFilter;
     }
