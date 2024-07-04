@@ -13,6 +13,11 @@ spring:
   jackson:
     serialization:
       indent-output: true
+  graphql:
+    cors:
+      allowed-origins: http://localhost:3000,http://127.0.0.1:3000
+      allowed-methods: POST, GET
 
 server:
   port: 8080
+
