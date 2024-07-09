@@ -29,8 +29,15 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody AppUser appUser) {
-        userService.save(appUser);
-        return ResponseEntity.ok("User registered successfully");
+        try {
+            if (userService.findByUsername(appUser.getUsername()) != null) {
+                return new ResponseEntity<>("Username is already taken", HttpStatus.BAD_REQUEST);
+            }
+            userService.save(appUser);
+            return ResponseEntity.ok("User registered successfully");
+        } catch (Exception e) {
+            return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping("/login")
