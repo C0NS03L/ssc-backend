@@ -1,6 +1,9 @@
 package com.moneytrackerbackend.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,8 +12,12 @@ public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter
+    @Setter
     private Long id;
 
+    @Getter
+    @Setter
     private String name;
 
     @ManyToOne
@@ -24,4 +31,11 @@ public class Category {
     private Set<Income> incomes = new HashSet<>();
 
     // Getters and setters
+    public AppUser getUser() {
+        return user;
+    }
+
+    public void setUser(AppUser user) {
+        this.user = user;
+    }
 }

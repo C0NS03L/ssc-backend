@@ -59,15 +59,4 @@ public class Balance {
     public void setUser(AppUser user) {
         this.user = user;
     }
-
-    public Long getUserId() {
-        return this.user != null ? this.user.getId() : null;
-    }
-
-    public void setUserId(Long userId) {
-        if (this.user == null) {
-            this.user = new AppUser();
-        }
-        this.user.setId(userId);
-    }
 }

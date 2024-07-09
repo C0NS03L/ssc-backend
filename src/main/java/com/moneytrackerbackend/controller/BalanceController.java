@@ -1,7 +1,7 @@
 package com.moneytrackerbackend.controller;
 
-import com.moneytrackerbackend.model.Balance;
 import com.moneytrackerbackend.model.AppUser;
+import com.moneytrackerbackend.model.Balance;
 import com.moneytrackerbackend.service.BalanceService;
 import com.moneytrackerbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/balance")
 public class BalanceController {
 
-    private final BalanceService balanceService;
-    private final UserService userService;
+    @Autowired
+    private BalanceService balanceService;
 
     @Autowired
-    public BalanceController(BalanceService balanceService, UserService userService) {
-        this.balanceService = balanceService;
-        this.userService = userService;
-    }
+    private UserService userService;
 
     @GetMapping
     public Balance getBalance() {

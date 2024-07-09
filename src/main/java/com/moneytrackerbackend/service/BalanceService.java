@@ -22,7 +22,7 @@ public class BalanceService {
         balance.setTotalIncome(balance.getTotalIncome().add(income));
         balance.setTotalExpense(balance.getTotalExpense().add(expense));
         balance.setNetBalance(balance.getTotalIncome().subtract(balance.getTotalExpense()));
-        balance.setUserId(userId);
+        balance.getUser().setId(userId);
         return balanceRepository.save(balance);
     }
 }
