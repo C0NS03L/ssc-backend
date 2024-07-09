@@ -20,8 +20,7 @@ public class ExpenseService {
     @Transactional
     public Expense save(Expense expense) {
         Expense savedExpense = expenseRepository.save(expense);
-        balanceService.updateBalance(expense.getUserId(), BigDecimal.ZERO, expense.getAmount());
+        balanceService.updateBalance(expense.getUser().getId(), BigDecimal.ZERO, expense.getAmount());
         return savedExpense;
-
     }
 }
