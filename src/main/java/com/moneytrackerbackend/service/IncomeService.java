@@ -20,7 +20,7 @@ public class IncomeService {
     @Transactional
     public Income save(Income income) {
         Income savedIncome = incomeRepository.save(income);
-        balanceService.updateBalance(income.getUserId(), income.getAmount(), BigDecimal.ZERO);
+        balanceService.updateBalance(income.getUser().getId(), income.getAmount(), BigDecimal.ZERO);
         return savedIncome;
     }
 }

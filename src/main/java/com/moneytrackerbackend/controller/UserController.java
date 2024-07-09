@@ -4,6 +4,9 @@ import com.moneytrackerbackend.model.AppUser;
 import com.moneytrackerbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,14 +16,26 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<AppUser> getUserById(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.findById(id));
+    @GetMapping
+    public ResponseEntity<AppUser> getUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = null;
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            username = ((UserDetails) authentication.getPrincipal()).getUsername();
+        }
+        AppUser user = userService.findByUsername(username);
+        return ResponseEntity.ok(user);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<AppUser> updateUser(@PathVariable Long id, @RequestBody AppUser user) {
-        user.setId(id);
+    @PutMapping
+    public ResponseEntity<AppUser> updateUser(@RequestBody AppUser user) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = null;
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            username = ((UserDetails) authentication.getPrincipal()).getUsername();
+        }
+        AppUser existingUser = userService.findByUsername(username);
+        user.setId(existingUser.getId());
         return ResponseEntity.ok(userService.save(user));
     }
 }
