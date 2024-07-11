@@ -17,12 +17,11 @@ public class BalanceService {
         return balanceRepository.findByUserId(userId).orElse(null);
     }
 
-    public Balance updateBalance(Long userId, BigDecimal income, BigDecimal expense) {
-        Balance balance = balanceRepository.findByUserId(userId).orElse(new Balance());
+    public Balance updateBalance(BigDecimal income, BigDecimal expense) {
+        Balance balance = balanceRepository.findAll().stream().findFirst().orElse(new Balance());
         balance.setTotalIncome(balance.getTotalIncome().add(income));
         balance.setTotalExpense(balance.getTotalExpense().add(expense));
         balance.setNetBalance(balance.getTotalIncome().subtract(balance.getTotalExpense()));
-        balance.getUser().setId(userId);
         return balanceRepository.save(balance);
     }
 }

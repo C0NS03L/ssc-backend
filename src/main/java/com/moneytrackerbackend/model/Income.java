@@ -14,14 +14,11 @@ public class Income {
     private BigDecimal amount;
     private String description;
     private LocalDateTime date;
+    private String category;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private AppUser user;
-
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
 
     // Getters and Setters
     public Long getId() {
@@ -56,23 +53,19 @@ public class Income {
         this.date = date;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
     public AppUser getUser() {
         return user;
     }
 
     public void setUser(AppUser user) {
         this.user = user;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public Long getUserId() {
-        return user != null ? user.getId() : null;
     }
 }
