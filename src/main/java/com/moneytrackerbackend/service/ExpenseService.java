@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 public class ExpenseService {
@@ -20,7 +21,11 @@ public class ExpenseService {
     @Transactional
     public Expense save(Expense expense) {
         Expense savedExpense = expenseRepository.save(expense);
-        balanceService.updateBalance(expense.getUser().getId(), BigDecimal.ZERO, expense.getAmount());
+        balanceService.updateBalance(BigDecimal.ZERO, expense.getAmount());
         return savedExpense;
+    }
+
+    public List<Expense> findByCategory(String category) {
+        return expenseRepository.findByCategory(category);
     }
 }

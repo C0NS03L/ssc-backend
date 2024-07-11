@@ -1,6 +1,5 @@
 -- Drop existing tables if they exist
 DROP TABLE IF EXISTS app_user CASCADE;
-DROP TABLE IF EXISTS category CASCADE;
 DROP TABLE IF EXISTS expense CASCADE;
 DROP TABLE IF EXISTS income CASCADE;
 
@@ -11,20 +10,13 @@ CREATE TABLE app_user (
                           password VARCHAR(255) NOT NULL
 );
 
--- Create the category table
-CREATE TABLE category (
-                          id SERIAL PRIMARY KEY,
-                          name VARCHAR(255) NOT NULL,
-                          user_id INTEGER REFERENCES app_user(id)
-);
-
 -- Create the expense table
 CREATE TABLE expense (
                          id SERIAL PRIMARY KEY,
                          amount DECIMAL(10, 2) NOT NULL,
-                         description VARCHAR(255),
+                         description VARCHAR(255) DEFAULT '',
                          date TIMESTAMP NOT NULL,
-                         category_id INTEGER REFERENCES category(id),
+                         category VARCHAR(255) NOT NULL,
                          user_id INTEGER REFERENCES app_user(id)
 );
 
@@ -32,25 +24,40 @@ CREATE TABLE expense (
 CREATE TABLE income (
                         id SERIAL PRIMARY KEY,
                         amount DECIMAL(10, 2) NOT NULL,
-                        description VARCHAR(255),
+                        description VARCHAR(255) DEFAULT '',
                         date TIMESTAMP NOT NULL,
-                        category_id INTEGER REFERENCES category(id),
+                        category VARCHAR(255) NOT NULL,
                         user_id INTEGER REFERENCES app_user(id)
 );
 
--- -- Insert initial data
--- -- Insert an admin user
--- INSERT INTO app_user (username, password) VALUES ('admin', '$2a$10$D9Qf1L8I5mE5uIYF0kXKUu6K0y4y4K5mZkqfJj1mH6ZvQ/4/d7/zK'); -- password: 1234
---
--- -- Insert some categories
--- INSERT INTO category (name, user_id) VALUES ('Groceries', 1);
--- INSERT INTO category (name, user_id) VALUES ('Salary', 1);
--- INSERT INTO category (name, user_id) VALUES ('Entertainment', 1);
---
--- -- Insert some expenses
--- INSERT INTO expense (amount, description, date, category_id, user_id) VALUES (50.00, 'Grocery shopping', NOW(), 1, 1);
--- INSERT INTO expense (amount, description, date, category_id, user_id) VALUES (20.00, 'Movie night', NOW(), 3, 1);
---
--- -- Insert some income
--- INSERT INTO income (amount, description, date, category_id, user_id) VALUES (1000.00, 'Monthly salary', NOW(), 2, 1);
--- INSERT INTO income (amount, description, date, category_id, user_id) VALUES (150.00, 'Freelance work', NOW(), 2, 1);
+
+-- Insert predefined categories into the expense table
+INSERT INTO expense (amount, date, category) VALUES
+                                                 (0, NOW(), 'Food & Drink'),
+                                                 (0, NOW(), 'Shopping'),
+                                                 (0, NOW(), 'Transport'),
+                                                 (0, NOW(), 'Home'),
+                                                 (0, NOW(), 'Bills & Fees'),
+                                                 (0, NOW(), 'Entertainment'),
+                                                 (0, NOW(), 'Car'),
+                                                 (0, NOW(), 'Travel'),
+                                                 (0, NOW(), 'Family & Personal'),
+                                                 (0, NOW(), 'Healthcare'),
+                                                 (0, NOW(), 'Education'),
+                                                 (0, NOW(), 'Groceries'),
+                                                 (0, NOW(), 'Gifts'),
+                                                 (0, NOW(), 'Sport & Hobbies'),
+                                                 (0, NOW(), 'Beauty'),
+                                                 (0, NOW(), 'Work'),
+                                                 (0, NOW(), 'Others');
+
+-- Insert predefined categories into the income table
+INSERT INTO income (amount, date, category) VALUES
+                                                (0, NOW(), 'Salary'),
+                                                (0, NOW(), 'Business'),
+                                                (0, NOW(), 'Gifts'),
+                                                (0, NOW(), 'Extra Income'),
+                                                (0, NOW(), 'Loan'),
+                                                (0, NOW(), 'Parental Leave'),
+                                                (0, NOW(), 'Insurance Payment'),
+                                                (0, NOW(), 'Others');
