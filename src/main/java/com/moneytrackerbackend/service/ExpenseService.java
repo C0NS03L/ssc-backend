@@ -28,4 +28,8 @@ public class ExpenseService {
     public List<Expense> findByCategory(String category) {
         return expenseRepository.findByCategory(category);
     }
+
+    public List<Expense> findByUserId(Long userId) {
+        return expenseRepository.findByUserId(userId);
+    }
 }

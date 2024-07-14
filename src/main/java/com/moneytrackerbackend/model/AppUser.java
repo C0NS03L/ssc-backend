@@ -1,5 +1,7 @@
 package com.moneytrackerbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -13,9 +15,11 @@ public class AppUser {
     private String username;
     private String password;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "user")
     private List<Income> incomes;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "user")
     private List<Expense> expenses;
 

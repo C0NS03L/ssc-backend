@@ -28,4 +28,7 @@ public class IncomeService {
     public List<Income> findByCategory(String category) {
         return incomeRepository.findByCategory(category);
     }
+    public List<Income> findByUserId(Long userId) {
+        return incomeRepository.findByUserId(userId);
+    }
 }
