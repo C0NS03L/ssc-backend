@@ -1,8 +1,13 @@
 package com.moneytrackerbackend.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.math.BigDecimal;
 
+@Getter
+@Setter
 @Entity
 public class Balance {
 
@@ -14,49 +19,12 @@ public class Balance {
     private BigDecimal totalIncome = BigDecimal.ZERO;
     private BigDecimal totalExpense = BigDecimal.ZERO;
 
+    @Column(name = "user_id", unique = true)
+    private Long userId;
+
     @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
     private AppUser user;
 
-    // Getters and setters
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public BigDecimal getNetBalance() {
-        return netBalance;
-    }
-
-    public void setNetBalance(BigDecimal netBalance) {
-        this.netBalance = netBalance;
-    }
-
-    public BigDecimal getTotalIncome() {
-        return totalIncome;
-    }
-
-    public void setTotalIncome(BigDecimal totalIncome) {
-        this.totalIncome = totalIncome;
-    }
-
-    public BigDecimal getTotalExpense() {
-        return totalExpense;
-    }
-
-    public void setTotalExpense(BigDecimal totalExpense) {
-        this.totalExpense = totalExpense;
-    }
-
-    public AppUser getUser() {
-        return user;
-    }
-
-    public void setUser(AppUser user) {
-        this.user = user;
-    }
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 @Service
 public class BalanceService {
@@ -17,8 +18,16 @@ public class BalanceService {
         return balanceRepository.findByUserId(userId).orElse(null);
     }
 
-    public Balance updateBalance(BigDecimal income, BigDecimal expense) {
-        Balance balance = balanceRepository.findAll().stream().findFirst().orElse(new Balance());
+    public Balance updateBalance(Long userId, BigDecimal income, BigDecimal expense) {
+        Optional<Balance> balanceOpt = balanceRepository.findByUserId(userId);
+        Balance balance;
+        if (balanceOpt.isPresent()) {
+            balance = balanceOpt.get();
+        } else {
+            balance = new Balance();
+            balance.setUserId(userId);
+        }
+
         balance.setTotalIncome(balance.getTotalIncome().add(income));
         balance.setTotalExpense(balance.getTotalExpense().add(expense));
         balance.setNetBalance(balance.getTotalIncome().subtract(balance.getTotalExpense()));

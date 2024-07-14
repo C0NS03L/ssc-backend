@@ -21,11 +21,15 @@ public class IncomeService {
     @Transactional
     public Income save(Income income) {
         Income savedIncome = incomeRepository.save(income);
-        balanceService.updateBalance(income.getAmount(), BigDecimal.ZERO);
+        balanceService.updateBalance(income.getUser().getId(), income.getAmount(), BigDecimal.ZERO);
         return savedIncome;
     }
 
     public List<Income> findByCategory(String category) {
         return incomeRepository.findByCategory(category);
+    }
+
+    public List<Income> findByUserId(Long userId) {
+        return incomeRepository.findByUserId(userId);
     }
 }

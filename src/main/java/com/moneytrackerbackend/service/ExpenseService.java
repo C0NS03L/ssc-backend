@@ -21,11 +21,15 @@ public class ExpenseService {
     @Transactional
     public Expense save(Expense expense) {
         Expense savedExpense = expenseRepository.save(expense);
-        balanceService.updateBalance(BigDecimal.ZERO, expense.getAmount());
+        balanceService.updateBalance(expense.getUser().getId(), BigDecimal.ZERO, expense.getAmount());
         return savedExpense;
     }
 
     public List<Expense> findByCategory(String category) {
         return expenseRepository.findByCategory(category);
+    }
+
+    public List<Expense> findByUserId(Long userId) {
+        return expenseRepository.findByUserId(userId);
     }
 }
