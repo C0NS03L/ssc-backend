@@ -32,4 +32,12 @@ public class IncomeService {
     public List<Income> findByUserId(Long userId) {
         return incomeRepository.findByUserId(userId);
     }
+
+    public void deleteById(Long id) {
+        Income income = incomeRepository.findById(id).orElse(null);
+        if (income != null) {
+            incomeRepository.deleteById(id);
+            balanceService.updateBalance(income.getUser().getId(), BigDecimal.ZERO, income.getAmount().negate());
+        }
+    }
 }

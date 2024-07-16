@@ -9,6 +9,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
@@ -43,5 +45,23 @@ public class ExpenseController {
         }
         AppUser user = userService.findByUsername(username);
         return expenseService.findByUserId(user.getId());
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Object> deleteExpense(@RequestParam Long id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = null;
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            username = ((UserDetails) authentication.getPrincipal()).getUsername();
+        }
+        AppUser user = userService.findByUsername(username);
+        List<Expense> userExpenses = expenseService.findByUserId(user.getId());
+        boolean expenseExists = userExpenses.stream().anyMatch(expense -> expense.getId().equals(id));
+        if (expenseExists) {
+            expenseService.deleteById(id);
+            return ResponseEntity.ok().build();
+        } else {
+            return new ResponseEntity<>("You do not own this Expense", HttpStatus.UNAUTHORIZED);
+        }
     }
 }

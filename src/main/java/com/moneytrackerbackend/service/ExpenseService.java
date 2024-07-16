@@ -1,6 +1,7 @@
 package com.moneytrackerbackend.service;
 
 import com.moneytrackerbackend.model.Expense;
+import com.moneytrackerbackend.model.Income;
 import com.moneytrackerbackend.repository.ExpenseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,5 +32,13 @@ public class ExpenseService {
 
     public List<Expense> findByUserId(Long userId) {
         return expenseRepository.findByUserId(userId);
+    }
+
+    public void deleteById(Long id) {
+        Expense expense = expenseRepository.findById(id).orElse(null);
+        if (expense != null) {
+            expenseRepository.deleteById(id);
+            balanceService.updateBalance(expense.getUser().getId(), BigDecimal.ZERO, expense.getAmount().negate());
+        }
     }
 }
