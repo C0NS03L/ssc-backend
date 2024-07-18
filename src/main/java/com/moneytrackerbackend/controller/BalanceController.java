@@ -12,8 +12,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
-@RequestMapping("/balance")
+@RequestMapping("/api/balance")
 public class BalanceController {
 
     @Autowired
@@ -23,13 +27,20 @@ public class BalanceController {
     private UserService userService;
 
     @GetMapping
-    public Balance getBalance() {
+    public Map<String, BigDecimal> getBalance() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = null;
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
             username = ((UserDetails) authentication.getPrincipal()).getUsername();
         }
         AppUser user = userService.findByUsername(username);
-        return balanceService.findByUserId(user.getId());
+        Balance balance = balanceService.findByUserId(user.getId());
+
+        Map<String, BigDecimal> balanceInfo = new HashMap<>();
+        balanceInfo.put("netBalance", balance.getNetBalance());
+        balanceInfo.put("totalIncome", balance.getTotalIncome());
+        balanceInfo.put("totalExpense", balance.getTotalExpense());
+
+        return balanceInfo;
     }
 }
