@@ -37,7 +37,7 @@ public class IncomeService {
         Income income = incomeRepository.findById(id).orElse(null);
         if (income != null) {
             incomeRepository.deleteById(id);
-            balanceService.updateBalance(income.getUser().getId(), BigDecimal.ZERO, income.getAmount().negate());
+            balanceService.updateBalance(income.getUser().getId(), income.getAmount().negate(), BigDecimal.ZERO);
         }
     }
 }
